@@ -1,0 +1,11 @@
+﻿.irudd-track-container {
+  max-width: 800px;
+  min-height: 100vh;
+  gap: 25px;
+}
+
+@media screen and (max-width: 800px) {
+  .irudd-track-container {
+    max-width: 100vw;
+  }
+}
