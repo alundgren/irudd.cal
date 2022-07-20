@@ -57,7 +57,7 @@ export default function MealAdder({meals, onMealAdded}: MealAdderProps) {
                 <select className="form-select" value={mealType} key={mealType} onChange={e => setMealType(e.currentTarget.value)} style={{textTransform: 'capitalize', maxWidth:130}}>
                     {options.map(x => <option key={x} value={x}>{x}</option>)}
                 </select>
-                <input className="form-control" type="text" placeholder="Nr of calories" value={calorieCount}
+                <input className="form-control"  type="number" pattern="[0-9]*" inputMode="numeric" placeholder="Nr of calories" value={calorieCount}
                        onChange={onCalorieCountChanged} onKeyDown={handleInputKeyDown} />
                 <button className="btn" disabled={!isCalorieCountValid} onClick={handleAddClicked}>
                     <FontAwesomeIcon icon={faPlus} />
