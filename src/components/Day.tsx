@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MealAdder, { Meal } from './MealAdder';
 import Shell from './Shell';
 import TrackingBar from './TrackingBar';
-import { formatShortDate, getYearMonthDay } from '../services/localization';
+import { addDaysToDate, formatShortDate, getYearMonthDay } from '../services/localization';
 import { get, update } from 'idb-keyval';
 
 const dailyCalorieBudget = 2600;
@@ -21,6 +21,7 @@ export default function Day({dateSkew, setDateSkew}: { dateSkew: number, setDate
     }, [])
 
     let content : JSX.Element = <p>Loading...</p>;
+    let content2: JSX.Element = <p>Loading...</p>;
 
     if(meals !== null) {
         let onCaloriesClicked = () => {
@@ -52,6 +53,14 @@ export default function Day({dateSkew, setDateSkew}: { dateSkew: number, setDate
             <TrackingBar currentValue={totalCalorieCount} maxValue={dailyCalorieBudget} onClick={onCaloriesClicked} />
             {isAddingCalories ? <MealAdder meals={meals} onMealAdded={onMealAdded} dateSkew={dateSkew} onMealRemoved={onMealRemoved} /> : null}        
         </>);
+
+        let aWeekAgo = getYearMonthDay(addDaysToDate(now, -7));
+        let weeklyMeals = meals.filter(x => x.yearMonthDay <= today && x.yearMonthDay >= aWeekAgo);
+        //TODO: Sum by date and compute rolling average
+        content2 = (<>
+            <TrackingBar currentValue={totalCalorieCount} maxValue={dailyCalorieBudget} onClick={onCaloriesClicked} />
+            {isAddingCalories ? <MealAdder meals={meals} onMealAdded={onMealAdded} dateSkew={dateSkew} onMealRemoved={onMealRemoved} /> : null}        
+        </>);        
     }
 
     let today = formatShortDate(now)
@@ -61,6 +70,8 @@ export default function Day({dateSkew, setDateSkew}: { dateSkew: number, setDate
             <section className="d-flex flex-column flex-grow-1" style={{gap: 10}}>
                 <h2>Daily calories</h2>
                 {content}
+                <h2>Weekly average calories</h2>
+                {content2}
             </section>
         </Shell>
     )
