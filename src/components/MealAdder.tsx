@@ -10,10 +10,11 @@ export interface Meal {
 }
 export interface MealAdderProps {
     meals: Meal[],
-    onMealAdded: (meal: Meal) => void
+    onMealAdded: (meal: Meal) => void,
+    dateSkew: number
 }
 
-export default function MealAdder({meals, onMealAdded}: MealAdderProps) {
+export default function MealAdder({meals, onMealAdded, dateSkew}: MealAdderProps) {
     let [mealType, setMealType] = useState('breakfast')
     let options = ['breakfast', 'lunch', 'dinner', 'treats', 'drinks']
 
@@ -27,9 +28,11 @@ export default function MealAdder({meals, onMealAdded}: MealAdderProps) {
     const generateItemId = () => Math.random().toString(36).substring(2, 8);
 
     let handleMealAdded = () => {
+        let now = new Date();
+        now.setDate(now.getDate() + dateSkew); 
         onMealAdded({
             id: generateItemId(),
-            date: new Date(),
+            date: now,
             type: mealType,
             calorieCount: calorieCountParsed
         })
