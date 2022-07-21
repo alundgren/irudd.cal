@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MealAdder, { Meal } from './MealAdder';
 import Shell from './Shell';
 import TrackingBar from './TrackingBar';
-import { formatShortDate } from '../services/localization';
+import { formatShortDate, getYearMonthDay } from '../services/localization';
 import { get, update } from 'idb-keyval';
 
 const dailyCalorieBudget = 2600;
@@ -36,11 +36,21 @@ export default function Day({dateSkew, setDateSkew}: { dateSkew: number, setDate
             }).then(() => get(mealsKey).then(x => setMeals(parseStoredMeals(x))));
         }
 
+        let onMealRemoved = (id: string) => {
+            update(mealsKey, oldValue => {
+                let currentStoredMeals = parseStoredMeals(oldValue);
+                currentStoredMeals = currentStoredMeals.filter(x => x.id !== id);
+                setMeals(currentStoredMeals);
+                return JSON.stringify(currentStoredMeals);    
+            })
+        };
+
         let totalCalorieCount = 0;
-        meals.forEach(x => totalCalorieCount += x.calorieCount);
+        let today = getYearMonthDay(now);
+        meals.filter(x => x.yearMonthDay === today).forEach(x => totalCalorieCount += x.calorieCount);
         content = (<>
             <TrackingBar currentValue={totalCalorieCount} maxValue={dailyCalorieBudget} onClick={onCaloriesClicked} />
-            {isAddingCalories ? <MealAdder meals={meals} onMealAdded={onMealAdded} dateSkew={dateSkew} /> : null}        
+            {isAddingCalories ? <MealAdder meals={meals} onMealAdded={onMealAdded} dateSkew={dateSkew} onMealRemoved={onMealRemoved} /> : null}        
         </>);
     }
 

@@ -1,11 +1,11 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { SyntheticEvent, useState } from "react";
-import { addDaysToDate, getYearMonthDay } from "../services/localization";
+import { addDaysToDate, formatShortTime, getYearMonthDay } from "../services/localization";
 
 export interface Meal {
     id: string,
-    fullDate: Date,
+    fullDate: string,
     yearMonthDay: number,
     type: string,
     calorieCount: number
@@ -13,10 +13,11 @@ export interface Meal {
 export interface MealAdderProps {
     meals: Meal[],
     onMealAdded: (meal: Meal) => void,
+    onMealRemoved: (id: string) => void,
     dateSkew: number
 }
 
-export default function MealAdder({meals, onMealAdded, dateSkew}: MealAdderProps) {
+export default function MealAdder({meals, onMealAdded, dateSkew, onMealRemoved}: MealAdderProps) {
     let [mealType, setMealType] = useState('breakfast')
     let options = ['breakfast', 'lunch', 'dinner', 'treats', 'drinks']
 
@@ -33,7 +34,7 @@ export default function MealAdder({meals, onMealAdded, dateSkew}: MealAdderProps
         let now = addDaysToDate(new Date(), dateSkew);
         onMealAdded({
             id: generateItemId(),
-            fullDate: now,
+            fullDate: now.toISOString(),
             yearMonthDay: getYearMonthDay(now),
             type: mealType,
             calorieCount: calorieCountParsed
@@ -44,6 +45,11 @@ export default function MealAdder({meals, onMealAdded, dateSkew}: MealAdderProps
         evt.preventDefault()
         handleMealAdded()
     }
+
+    let handleRemoveClicked = (evt: SyntheticEvent, meal: Meal) => {
+        evt.preventDefault();
+        onMealRemoved(meal.id);
+    };
 
     const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(e.key !== 'Enter') {
@@ -72,10 +78,13 @@ export default function MealAdder({meals, onMealAdded, dateSkew}: MealAdderProps
                 </button>
             </div>
             {todaysMeals.map(meal => (
-                <div key={meal.id}>
-                    <span>{meal.type}</span>
-                    <span>{meal.calorieCount}</span>
-                    <span>{meal.fullDate.toLocaleString('short')}</span>
+                <div key={meal.id} className='d-flex align-items-center'>
+                    <span style={{ width: 130 }}>{formatShortTime(new Date(meal.fullDate))}</span>
+                    <span style={{ width: 200 }}>
+                        <strong>+{meal.calorieCount}</strong> 
+                        <small className="ms-1">({meal.type})</small>                       
+                    </span>
+                    <FontAwesomeIcon className="text-danger" icon={faRemove} onClick={x => { handleRemoveClicked(x, meal) }}/> 
                 </div>
             ))}
         </>

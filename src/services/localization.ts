@@ -6,6 +6,10 @@ export function formatShortDate(d: Date) {
     return d?.toLocaleDateString(locale, shortDateOptions)
 }
 
+export function formatShortTime(d: Date) {
+    return d?.toLocaleTimeString(locale, { hour: '2-digit', minute:'2-digit' })
+}
+
 export function getYearMonthDay(d: Date) {
     return parseInt(`${d.getFullYear()}${d.getMonth().toString().padStart(2, '0')}${d.getDay().toString().padStart(2, '0')}`)
 }
