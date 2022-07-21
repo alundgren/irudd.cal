@@ -33,7 +33,7 @@ export default function Day({dateSkew, setDateSkew}: { dateSkew: number, setDate
                 currentStoredMeals = [...currentStoredMeals, meal];
                 setMeals(currentStoredMeals);
                 return JSON.stringify(currentStoredMeals);
-            })
+            }).then(() => get(mealsKey).then(x => setMeals(parseStoredMeals(x))));
         }
 
         let totalCalorieCount = 0;
