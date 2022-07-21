@@ -78,7 +78,7 @@ export default function MealAdder({meals, onMealAdded, dateSkew, onMealRemoved}:
                 </button>
             </div>
             {todaysMeals.map(meal => (
-                <div key={meal.id} className='d-flex align-items-center'>
+                <div key={meal.id} className='d-flex align-items-center mt-2'>
                     <span style={{ width: 130 }}>{formatShortTime(new Date(meal.fullDate))}</span>
                     <span style={{ width: 200 }}>
                         <strong>+{meal.calorieCount}</strong> 
