@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import Shell from './Shell';
-import TrackingBar from './TrackingBar';
-import { formatShortDate } from '../services/localization';
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { CommonState } from "../features/common/commonSlice";
-import { MealsState } from "../features/meals/mealsSlice";
+import { CommonState } from "../common/commonSlice";
+import { MealsState } from "./mealsSlice";
+import DateService from "../../services/DateService";
+import TrackingBar from "../../components/TrackingBar";
 import MealAdder from "./MealAdder";
-import DateService from "../services/DateService";
 
 const dailyCalorieBudget = 2600;
 
-export default function Day() {
+export default function MealsSummary() {
     const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
     const meals = useSelector((x: { meals: MealsState }) => x.meals.meals);
-     
+
     let [isAddingCalories, setIsAddingCalories] = useState(true);
-    
+
     let dateService = new DateService(dateSkew);
 
     let content: JSX.Element = <p>Loading...</p>;
@@ -26,31 +24,29 @@ export default function Day() {
         let onCaloriesClicked = () => {
             setIsAddingCalories(!isAddingCalories);
         }
-        let totalCalorieCount = 0;        
+        let totalCalorieCount = 0;
         let today = DateService.getYearMonthDay(now);
         meals.filter(x => x.yearMonthDay === today).forEach(x => totalCalorieCount += x.calorieCount);
         content = (<>
             <TrackingBar currentValue={totalCalorieCount} maxValue={dailyCalorieBudget} onClick={onCaloriesClicked}/>
             {isAddingCalories ? <MealAdder/> : null}
         </>);
-/*
-        let aWeekAgo = getYearMonthDay(addDaysToDate(now, -7));
-        let weeklyMeals = meals.filter(x => x.yearMonthDay <= today && x.yearMonthDay >= aWeekAgo);
- */
+        /*
+                let aWeekAgo = getYearMonthDay(addDaysToDate(now, -7));
+                let weeklyMeals = meals.filter(x => x.yearMonthDay <= today && x.yearMonthDay >= aWeekAgo);
+         */
         //TODO: Sum by date and compute rolling average
         content2 = (<>
 
         </>);
-    }
+    }    
+    return (<>
+        <section className="d-flex flex-column flex-grow-1" style={{gap: 10}}>
+            <h2>Daily calories</h2>
+            {content}
+            <h2>Weekly average calories</h2>
+            {content2}
+        </section>
 
-    return (
-        <Shell activeMenuItem='day' titleText={formatShortDate(now)}>
-            <section className="d-flex flex-column flex-grow-1" style={{gap: 10}}>
-                <h2>Daily calories</h2>
-                {content}
-                <h2>Weekly average calories</h2>
-                {content2}
-            </section>
-        </Shell>
-    )
+    </>);
 }

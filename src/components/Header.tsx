@@ -5,6 +5,7 @@ import './Header.scss';
 import { useDispatch } from "react-redux";
 import { changeDateSkew } from "../features/common/commonSlice";
 import React from "react";
+import { ActiveMenuItemCode } from "./Shell";
 
 let containerStyle = {
     gap: 15
@@ -16,7 +17,7 @@ let logoStyle = {
 
 export interface HeaderProps {
     titleText: string,
-    activeMenuItem : 'day' | 'week' | 'settings'
+    activeMenuItem : ActiveMenuItemCode
 }
 
 function Header({titleText, activeMenuItem}: HeaderProps) {
@@ -45,8 +46,7 @@ function Header({titleText, activeMenuItem}: HeaderProps) {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <a href={'/'} data-rr-ui-dropdown-item="" className={menuItemClasses('day')}>Day</a>
-                        <a href={'/week'} data-rr-ui-dropdown-item="" className={menuItemClasses('week')}>Week</a>
+                        <a href={'/'} data-rr-ui-dropdown-item="" className={menuItemClasses('Summary')}>Summary</a>
                         <a href={'/settings'} data-rr-ui-dropdown-item="" className={menuItemClasses('settings')}>Settings</a>
                     </Dropdown.Menu>
                 </Dropdown>

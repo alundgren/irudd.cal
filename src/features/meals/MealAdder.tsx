@@ -1,11 +1,11 @@
 import { faPlus, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { SyntheticEvent, useState } from "react";
-import { formatShortTime } from "../services/localization";
 import { useDispatch, useSelector } from "react-redux";
-import { CommonState } from "../features/common/commonSlice";
-import { addMeal, Meal, MealsState, removeMeal } from "../features/meals/mealsSlice";
-import DateService from "../services/DateService";
+import { CommonState } from "../common/commonSlice";
+import { addMeal, Meal, MealsState, removeMeal } from "./mealsSlice";
+import DateService from "../../services/DateService";
+import { formatShortTime } from "../../services/localization";
 
 export default function MealAdder() {
     const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
@@ -35,7 +35,7 @@ export default function MealAdder() {
         evt.preventDefault()
         handleMealAdded()
     }
-
+    
     let handleRemoveClicked = (evt: SyntheticEvent, meal: Meal) => {
         evt.preventDefault();
         dispatch(removeMeal(meal.id));

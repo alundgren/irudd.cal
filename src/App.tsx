@@ -1,9 +1,10 @@
 import './App.css';
-import Day from "./components/Day";
+import Summary from "./components/Summary";
+
 
 function App() {
     return (
-        <Day />
+        <Summary />
     );
 }
 

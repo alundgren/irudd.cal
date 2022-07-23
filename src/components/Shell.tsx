@@ -8,7 +8,7 @@ export interface ShellProps {
     children?: React.ReactNode
 }
 
-export type ActiveMenuItemCode = 'day' | 'week' | 'settings'
+export type ActiveMenuItemCode = 'summary' | 'settings'
 
 export default function Shell({activeMenuItem, titleText, children}: ShellProps)  {
     return (
