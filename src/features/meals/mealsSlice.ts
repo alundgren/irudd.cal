@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import DateService from "../../services/DateService";
 
 export interface MealsState {
-    meals: Meal[]
+    meals: Meal[],
+    dailyCalorieBudget: number
 }
 
 export interface Meal {
@@ -16,7 +17,8 @@ export interface Meal {
 let generateItemId = () => Math.random().toString(36).substring(2, 8);
 
 let initialState: MealsState = {
-    meals: []
+    meals: [],
+    dailyCalorieBudget: 2600
 };
 
 let mealSlice = createSlice({
