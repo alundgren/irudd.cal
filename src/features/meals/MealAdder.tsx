@@ -1,23 +1,18 @@
 import { faPlus, faRemove } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { SyntheticEvent, useState } from "react";
-import { addDaysToDate, formatShortTime, getYearMonthDay } from "../services/localization";
+import { useDispatch, useSelector } from "react-redux";
+import { CommonState } from "../common/commonSlice";
+import { addMeal, Meal, MealsState, removeMeal } from "./mealsSlice";
+import DateService from "../../services/DateService";
+import { formatShortTime } from "../../services/localization";
 
-export interface Meal {
-    id: string,
-    fullDate: string,
-    yearMonthDay: number,
-    type: string,
-    calorieCount: number
-}
-export interface MealAdderProps {
-    meals: Meal[],
-    onMealAdded: (meal: Meal) => void,
-    onMealRemoved: (id: string) => void,
-    dateSkew: number
-}
-
-export default function MealAdder({meals, onMealAdded, dateSkew, onMealRemoved}: MealAdderProps) {
+export default function MealAdder() {
+    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const meals = useSelector((x: { meals: MealsState }) => x.meals.meals);
+    const dispatch = useDispatch();
+    const dateService = new DateService(dateSkew);
+    
     let [mealType, setMealType] = useState('breakfast')
     let options = ['breakfast', 'lunch', 'dinner', 'treats', 'drinks']
 
@@ -28,27 +23,22 @@ export default function MealAdder({meals, onMealAdded, dateSkew, onMealRemoved}:
     let calorieCountParsed = parseInt(calorieCount)
     let isCalorieCountValid = !Number.isNaN(calorieCountParsed)
 
-    const generateItemId = () => Math.random().toString(36).substring(2, 8);
-
     let handleMealAdded = () => {
-        let now = addDaysToDate(new Date(), dateSkew);
-        onMealAdded({
-            id: generateItemId(),
-            fullDate: now.toISOString(),
-            yearMonthDay: getYearMonthDay(now),
-            type: mealType,
-            calorieCount: calorieCountParsed
-        })
+        dispatch(addMeal({
+            date: dateService.getNow(),
+            calorieCount: calorieCountParsed,
+            type: mealType
+        }))
         setCalorieCount('')
     }
     let handleAddClicked = (evt: SyntheticEvent) => {
         evt.preventDefault()
         handleMealAdded()
     }
-
+    
     let handleRemoveClicked = (evt: SyntheticEvent, meal: Meal) => {
         evt.preventDefault();
-        onMealRemoved(meal.id);
+        dispatch(removeMeal(meal.id));
     };
 
     const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -62,8 +52,8 @@ export default function MealAdder({meals, onMealAdded, dateSkew, onMealRemoved}:
         handleMealAdded()
     };
 
-    let today = getYearMonthDay(addDaysToDate(new Date(), dateSkew));
-    let todaysMeals = meals.filter(x =>  x.yearMonthDay === today);
+    let today = DateService.getYearMonthDay(dateService.getNow());
+    let dayMeals = meals.filter(x =>  x.yearMonthDay === today);
 
     return (
         <>
@@ -77,9 +67,9 @@ export default function MealAdder({meals, onMealAdded, dateSkew, onMealRemoved}:
                     <FontAwesomeIcon icon={faPlus} />
                 </button>
             </div>
-            {todaysMeals.map(meal => (
+            {dayMeals.map(meal => (
                 <div key={meal.id} className='d-flex align-items-center mt-2'>
-                    <span style={{ width: 130 }}>{formatShortTime(new Date(meal.fullDate))}</span>
+                    <span style={{ width: 130 }}>{formatShortTime(new Date(meal.fullIsoDate))}</span>
                     <span style={{ width: 200 }}>
                         <strong>+{meal.calorieCount}</strong> 
                         <small className="ms-1">({meal.type})</small>                       

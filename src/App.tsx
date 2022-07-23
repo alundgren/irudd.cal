@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import './App.css';
-import Day from "./components/Day";
+import Summary from "./components/Summary";
+
 
 function App() {
-    let [dateSkew, setDateSkew] = useState(0);
     return (
-        <Day dateSkew={dateSkew} setDateSkew={setDateSkew} />
+        <Summary />
     );
 }
 
