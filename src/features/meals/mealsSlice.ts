@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import DateService from "../../services/DateService";
 
 export interface MealsState {
     meals: Meal[],
@@ -10,7 +9,6 @@ export interface Meal {
     id: string,
     fullIsoDate: string,
     yearMonthDay: number,
-    type: string,
     calorieCount: number
 }
 
@@ -25,12 +23,11 @@ let mealSlice = createSlice({
     name: 'meals',
     initialState,
     reducers: {
-        addMeal(state, action: PayloadAction<{ date: Date, calorieCount: number, type: string }>) {
+        addMeal(state, action: PayloadAction<{ fullIsoDate: string, yearMonthDay: number, calorieCount: number }>) {
             state.meals =[...state.meals, { 
-                fullIsoDate: DateService.toIsoString(action.payload.date),
-                yearMonthDay: DateService.getYearMonthDay(action.payload.date), 
+                fullIsoDate: action.payload.fullIsoDate,
+                yearMonthDay: action.payload.yearMonthDay,
                 calorieCount: action.payload.calorieCount, 
-                type: action.payload.type,
                 id: generateItemId() }];
         },
         removeMeal(state, action: PayloadAction<string>) {

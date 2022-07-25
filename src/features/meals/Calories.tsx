@@ -6,7 +6,7 @@ import DateService from "../../services/DateService";
 import TrackingBar from "../../components/TrackingBar";
 import MealAdder from "./MealAdder";
 
-export default function DailyCalories() {
+export default function Calories() {
     const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
     const mealsData = useSelector((x: { meals: MealsState }) => x.meals);
     const meals = mealsData.meals;
@@ -23,7 +23,7 @@ export default function DailyCalories() {
     let today = DateService.getYearMonthDay(now);
     meals.filter(x => x.yearMonthDay === today).forEach(x => totalCalorieCount += x.calorieCount);
     return (<>
-            <h2>Daily calories</h2>
+            <h3>Calories</h3>
             <TrackingBar currentValue={totalCalorieCount} maxValue={dailyCalorieBudget} onClick={onCaloriesClicked}/>
             {isAddingCalories ? <MealAdder/> : null}
     </>);
