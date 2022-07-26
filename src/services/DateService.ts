@@ -19,4 +19,8 @@ export default class DateService {
     static toIsoString(d: Date) {
         return d.toISOString();
     }
+    
+    static getAbsoluteMillisecondsBetweenDates(d1: Date, d2: Date) {
+        return Math.abs(d1.getTime() - d2.getTime());
+    }
 }

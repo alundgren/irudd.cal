@@ -12,11 +12,11 @@ let commonSlice = createSlice({
     name: 'common',
     initialState,
     reducers: {
-        changeDateSkew(state, action: PayloadAction<number>) {
-            state.dateSkew = state.dateSkew + action.payload
+        setDateSkew(state, action: PayloadAction<number>) {
+            state.dateSkew = action.payload
         }
     }
 });
 
-export const { changeDateSkew } = commonSlice.actions;
+export const { setDateSkew } = commonSlice.actions;
 export const commonReducer = commonSlice.reducer;
