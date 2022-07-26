@@ -4,7 +4,7 @@ import { Button, Dropdown } from "react-bootstrap";
 import './Header.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { setDateSkew, CommonState } from "../features/common/commonSlice";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ActiveMenuItemCode } from "./Shell";
 
 let containerStyle = {
@@ -23,10 +23,10 @@ export interface HeaderProps {
 function Header({titleText, activeMenuItem}: HeaderProps) {
     let menuItemClasses = (n: string) => `dropdown-item ${activeMenuItem === n ? 'active' : ''}`
     const dispatch = useDispatch();
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);    
     
-    const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;
     useEffect(() => {
+        const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;
         /*
         * PWA seem to basically never restart on iOS so if we dont
         * manually reset the time-travel a bit every time a new day happens there is this wierd behaviour.
@@ -39,7 +39,7 @@ function Header({titleText, activeMenuItem}: HeaderProps) {
             }, FifteenMinutesAsMilliseconds);
             return () => clearTimeout(timer);            
         }
-    }, [dateSkew]);
+    }, [dateSkew, dispatch]);
 
     const isForwardTimeTravelAllowed = dateSkew < 0;    
     let handleChangeDateSkew = (skewChange: number) => {
