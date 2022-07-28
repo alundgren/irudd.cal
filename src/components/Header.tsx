@@ -62,8 +62,8 @@ function Header({titleText, activeMenuItem}: HeaderProps) {
                         <FontAwesomeIcon icon={faMinus} onClick={handleChangeDateSkew(-1)}/>
                     </Button>                    
                     <span>{titleText}</span>
-                    <Button variant='outline-secondary' size='sm' style={{marginLeft:3}} disabled={!isForwardTimeTravelAllowed}>
-                        <FontAwesomeIcon icon={faPlus} onClick={handleChangeDateSkew(1)}/>
+                    <Button variant='outline-secondary' size='sm' style={{marginLeft:3}} disabled={!isForwardTimeTravelAllowed} onClick={handleChangeDateSkew(1)}>
+                        <FontAwesomeIcon icon={faPlus} />
                     </Button>
                 </div>
                 <Dropdown align='end' className="hamurger-menu">
