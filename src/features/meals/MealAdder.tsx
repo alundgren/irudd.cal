@@ -65,10 +65,8 @@ export default function MealAdder() {
     if(uniqueDateCount > 0) {
         weeklyMeals.forEach(x => weeklyAverageCalories += x.calorieCount);
         weeklyAverageCalories = Math.round(weeklyAverageCalories / uniqueDateCount);
-    }    
+    }
     
-    
-
     return (
         <>
             <div className="input-group">

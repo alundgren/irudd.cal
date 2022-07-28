@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setDateSkew, CommonState } from "../features/common/commonSlice";
 import React, { useEffect } from "react";
 import { ActiveMenuItemCode } from "./Shell";
+import DateService from "../services/DateService";
+import { formatShortDate } from "../services/localization";
 
 let containerStyle = {
     gap: 15
@@ -16,14 +18,15 @@ let logoStyle = {
 }
 
 export interface HeaderProps {
-    titleText: string,
     activeMenuItem : ActiveMenuItemCode
 }
 
-function Header({titleText, activeMenuItem}: HeaderProps) {
+function Header({activeMenuItem}: HeaderProps) {
     let menuItemClasses = (n: string) => `dropdown-item ${activeMenuItem === n ? 'active' : ''}`
     const dispatch = useDispatch();
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);    
+    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateService = new DateService(dateSkew);
+    const titleText = dateSkew === 0 ? 'Today' :  formatShortDate(dateService.getNow());    
     
     useEffect(() => {
         const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;

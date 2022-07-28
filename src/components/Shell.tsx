@@ -4,16 +4,15 @@ import React from "react";
 
 export interface ShellProps {
     activeMenuItem : ActiveMenuItemCode,
-    titleText: string
     children?: React.ReactNode
 }
 
 export type ActiveMenuItemCode = 'summary' | 'settings'
 
-export default function Shell({activeMenuItem, titleText, children}: ShellProps)  {
+export default function Shell({activeMenuItem, children}: ShellProps)  {
     return (
         <div className="container-fluid d-flex flex-column bg-light p-3 irudd-track-container">
-            <Header titleText={titleText} activeMenuItem={activeMenuItem} />
+            <Header activeMenuItem={activeMenuItem} />
             <div className="d-flex flex-grow-1 justify-content-center align-items-start">
                 {children}
             </div>
