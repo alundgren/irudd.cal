@@ -18,3 +18,10 @@ Service worker:
 
 - Note the .htaccess in /public which makes sure the service-worker js is not cached.
 - Without this updates "never" (slower than several hours at least) happen. 
+
+Production like local testing
+>> npm run build
+
+>> npm install -g serve
+
+>> serve -s build
