@@ -19,14 +19,17 @@ export interface StoreSlices {
 
 export function createStoreAndSetupIndexedDb() {
     let store = createStore();
-    let dbKey = 'meals.20220722.01';
-    return get(dbKey).then(x => {
+    const dbLegacyKey = 'meals.20220722.01';
+    const dbKey = 'irudd.cal.store.20020801.01'
+    return get(dbLegacyKey).then(x => {
         if (x) {
             let parsed = JSON.parse(x);
             store.dispatch(setMeals(parsed.meals || []));
         }
         store.subscribe(() => {
-            set(dbKey, JSON.stringify({meals: store.getState().meals.meals}));
+            set(dbLegacyKey, JSON.stringify({meals: store.getState().meals.meals})).then(() => {
+                set(dbKey, JSON.stringify(store.getState()));
+            })
         });        
         return store;
     });
