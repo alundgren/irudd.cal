@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { mealSliceReducer, MealsState, setMeals } from "./features/meals/mealsSlice";
 import { commonReducer, CommonState } from "./features/common/commonSlice";
 import { get, set } from 'idb-keyval';
+import { stepsSliceReducer } from "./features/steps/stepsSlice";
 
 function createStore() {
     return configureStore({
         reducer: {
             meals: mealSliceReducer,
-            common: commonReducer
+            common: commonReducer,
+            steps: stepsSliceReducer
         }
     })
 }
@@ -27,9 +29,10 @@ export function createStoreAndSetupIndexedDb() {
             store.dispatch(setMeals(parsed.meals || []));
         }
         store.subscribe(() => {
-            set(dbLegacyKey, JSON.stringify({meals: store.getState().meals.meals})).then(() => {
-                set(dbKey, JSON.stringify(store.getState()));
-            })
+            let storeState = store.getState();
+            set(dbKey, storeState).then(() => {
+                set(dbLegacyKey, JSON.stringify({meals: storeState.meals.meals}));
+            })            
         });        
         return store;
     });

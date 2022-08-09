@@ -19,9 +19,9 @@ export default function Calories() {
     let onCaloriesClicked = () => {
         setIsAddingCalories(!isAddingCalories);
     }
-    let totalCalorieCount = 0;
-    let today = DateService.getYearMonthDay(now);
-    meals.filter(x => x.yearMonthDay === today).forEach(x => totalCalorieCount += x.calorieCount);
+    let totalCalorieCount = 0;    
+    let todayMeals = DateService.getItemsForDate(meals, now);
+    todayMeals.forEach(x => totalCalorieCount += x.calorieCount);
 
     useEffect(() => {
         /*

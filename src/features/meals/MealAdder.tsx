@@ -54,13 +54,12 @@ export default function MealAdder() {
 
     let now = dateService.getNow();
     let today = DateService.getYearMonthDay(now);
-    let dayMeals = meals.filter(x =>  x.yearMonthDay === today);
+    let dayMeals = DateService.getItemsForDate(meals, now);
     
     let caloriesRemaining = mealsData.dailyCalorieBudget - dayMeals.reduce((sum, meal) => sum + meal.calorieCount, 0);
 
-    const aWeekAgo = DateService.getYearMonthDay(DateService.addDaysToDate(now, -7));
-    const weeklyMeals = meals.filter(x => x.yearMonthDay >= aWeekAgo && x.yearMonthDay < today);
-    let uniqueDateCount = new Set(weeklyMeals.map(x => x.yearMonthDay)).size;
+    const weeklyMeals = DateService.getItemsForWeek(meals, now);
+    let uniqueDateCount = DateService.getUniqueDateCount(weeklyMeals);
     let weeklyAverageCalories = 0;
     if(uniqueDateCount > 0) {
         weeklyMeals.forEach(x => weeklyAverageCalories += x.calorieCount);

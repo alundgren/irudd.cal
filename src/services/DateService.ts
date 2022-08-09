@@ -23,4 +23,25 @@ export default class DateService {
     static getAbsoluteMillisecondsBetweenDates(d1: Date, d2: Date) {
         return Math.abs(d1.getTime() - d2.getTime());
     }
+    
+    static getItemsForDate<T extends DatedItem>(allItems: T[], todayDate: Date) {
+        let today = DateService.getYearMonthDay(todayDate);
+        return allItems.filter(x =>  x.yearMonthDay === today);
+    }
+    
+    static getItemsForWeek<T extends DatedItem>(allItems: T[], todayDate: Date) {
+        let today = DateService.getYearMonthDay(todayDate);
+        const aWeekAgo = DateService.getYearMonthDay(DateService.addDaysToDate(todayDate, -7));
+        return allItems.filter(x => x.yearMonthDay >= aWeekAgo && x.yearMonthDay < today);
+    }
+    
+    static getUniqueDateCount(items: DatedItem[]) {
+        return new Set(items.map(x => x.yearMonthDay)).size;
+    }
+}
+
+export interface DatedItem {
+    id: string
+    fullIsoDate: string
+    yearMonthDay: number
 }

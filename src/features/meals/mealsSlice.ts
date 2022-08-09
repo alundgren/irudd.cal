@@ -1,14 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { DatedItem } from "../../services/DateService";
 
 export interface MealsState {
     meals: Meal[],
     dailyCalorieBudget: number
 }
 
-export interface Meal {
-    id: string,
-    fullIsoDate: string,
-    yearMonthDay: number,
+export interface Meal extends DatedItem {
     calorieCount: number
 }
 
