@@ -53,7 +53,6 @@ export default function MealAdder() {
     };
 
     let now = dateService.getNow();
-    let today = DateService.getYearMonthDay(now);
     let dayMeals = DateService.getItemsForDate(meals, now);
     
     let caloriesRemaining = mealsData.dailyCalorieBudget - dayMeals.reduce((sum, meal) => sum + meal.calorieCount, 0);

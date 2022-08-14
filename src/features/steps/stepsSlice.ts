@@ -22,7 +22,7 @@ let stepsSlice = createSlice({
     initialState,
     reducers: {
         setDailySteps(state, action: PayloadAction<{ fullIsoDate: string, yearMonthDay: number, stepCount: number }>) {
-            state.dailySteps =[...state.dailySteps, { 
+            state.dailySteps =[...state.dailySteps.filter(x => x.yearMonthDay !== action.payload.yearMonthDay), { 
                 fullIsoDate: action.payload.fullIsoDate,
                 yearMonthDay: action.payload.yearMonthDay,
                 stepCount: action.payload.stepCount, 
