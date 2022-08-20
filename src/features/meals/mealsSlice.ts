@@ -31,11 +31,11 @@ let mealSlice = createSlice({
         removeMeal(state, action: PayloadAction<string>) {
             state.meals = state.meals.filter(x => x.id !== action.payload);
         },
-        setMeals(state, action: PayloadAction<Meal[]>) {
-            state.meals = action.payload;
+        setMealsState(state, action: PayloadAction<MealsState>) {
+            return action.payload ?? initialState;
         }
     }
 });
 
-export const { addMeal, removeMeal, setMeals } = mealSlice.actions;
+export const { addMeal, removeMeal, setMealsState } = mealSlice.actions;
 export const mealSliceReducer = mealSlice.reducer;

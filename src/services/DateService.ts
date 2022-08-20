@@ -34,6 +34,12 @@ export default class DateService {
         const aWeekAgo = DateService.getYearMonthDay(DateService.addDaysToDate(todayDate, -7));
         return allItems.filter(x => x.yearMonthDay >= aWeekAgo && x.yearMonthDay < today);
     }
+
+    static getItemsForMonth<T extends DatedItem>(allItems: T[], todayDate: Date) {
+        let today = DateService.getYearMonthDay(todayDate);
+        const aMonthAgo = DateService.getYearMonthDay(DateService.addDaysToDate(todayDate, -30));
+        return allItems.filter(x => x.yearMonthDay >= aMonthAgo && x.yearMonthDay < today);
+    }
     
     static getUniqueDateCount(items: DatedItem[]) {
         return new Set(items.map(x => x.yearMonthDay)).size;
