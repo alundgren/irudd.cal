@@ -5,13 +5,16 @@ export interface TrackingBarProps {
     currentValue: number,
     maxValue: number,
     onClick?: () => void
-    moreIsBetter?: boolean
+    moreIsBetter?: boolean,
+    noWarnings?: boolean
 }
-export default function TrackingBar({currentValue, maxValue, onClick, moreIsBetter}: TrackingBarProps) {
+export default function TrackingBar({currentValue, maxValue, onClick, moreIsBetter, noWarnings}: TrackingBarProps) {
     let progressPercentActual = Math.round(100 * currentValue / maxValue)
     let isAboveMax = progressPercentActual > 100
     let isBelowMaxButAboveZero = progressPercentActual > 0 && progressPercentActual < 100;
-    let isWarningLevel = (moreIsBetter && isBelowMaxButAboveZero) || (!moreIsBetter && isAboveMax);
+    let isWarningLevel = noWarnings 
+        ? false 
+        : ((moreIsBetter && isBelowMaxButAboveZero) || (!moreIsBetter && isAboveMax));
     let progressPercent = isAboveMax ? 100 : progressPercentActual;
     let remainingPercent = 100 - progressPercent;
 

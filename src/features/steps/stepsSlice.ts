@@ -32,7 +32,7 @@ let stepsSlice = createSlice({
             state.dailySteps = state.dailySteps.filter(x => x.id !== action.payload);
         },
         setStepsState(state, action: PayloadAction<StepsState>) {
-            return action.payload;
+            return action.payload ?? initialState;
         }
     }
 });

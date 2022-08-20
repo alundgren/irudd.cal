@@ -25,7 +25,7 @@ export default function Steps() {
     let totalStepCount = 0;
     let todaySteps = DateService.getItemsForDate(stepsData.dailySteps, now);
     todaySteps.forEach(x => totalStepCount += x.stepCount);
-    let initialEditStepCount = totalStepCount.toString();
+    let initialEditStepCount = '';
     const [editStepCount, setEditStepCount] = useState(initialEditStepCount);
     if(!isEditingStepCount && editStepCount !== initialEditStepCount) {
         //Makes sure that if you timetravel with the editor closed it will recalculate the initial value
@@ -40,6 +40,7 @@ export default function Steps() {
         } else {       
             dispatch(setDailySteps({ fullIsoDate: DateService.toIsoString(now), yearMonthDay: DateService.getYearMonthDay(now), stepCount: newTotalSteps }));
             setIsEditingStepCount(false);
+            setEditStepCount(initialEditStepCount);
             setIsStepsInvalid(false);
         } 
     };
