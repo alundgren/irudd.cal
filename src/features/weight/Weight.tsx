@@ -50,11 +50,13 @@ export default function Weight() {
     };
 
     let monthlyWeightGraphData = DateService
-        .getItemsForMonth(weightData.dailyWeights, now).map(x => ({
+        .getItemsForMonth(weightData.dailyWeights, now, true).map(x => ({
             name: 'Weight',
             weight: x.weight,
-            targetWeight: weightData.dailyWeightTarget
-        }));
+            targetWeight: weightData.dailyWeightTarget,
+            yearMonthDay : x.yearMonthDay
+        }));    
+    monthlyWeightGraphData = monthlyWeightGraphData.sort((x, y) => x.yearMonthDay - y.yearMonthDay);
     
     return (<>
         <h3>Weight</h3>
