@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DatedItem } from "../../services/DateService";
+import generateItemId from "../../services/generateItemId";
 
 export interface StepsState {
     dailySteps: DailySteps[],
@@ -9,8 +10,6 @@ export interface StepsState {
 export interface DailySteps extends DatedItem {
     stepCount: number
 }
-
-let generateItemId = () => Math.random().toString(36).substring(2, 8);
 
 let initialState: StepsState = {
     dailySteps: [],

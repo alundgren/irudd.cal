@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DatedItem } from "../../services/DateService";
+import generateItemId from "../../services/generateItemId";
 
 export interface MealsState {
     meals: Meal[],
@@ -9,8 +10,6 @@ export interface MealsState {
 export interface Meal extends DatedItem {
     calorieCount: number
 }
-
-let generateItemId = () => Math.random().toString(36).substring(2, 8);
 
 let initialState: MealsState = {
     meals: [],

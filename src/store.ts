@@ -4,6 +4,7 @@ import { commonReducer, CommonState } from "./features/common/commonSlice";
 import { get, set } from 'idb-keyval';
 import { setStepsState, stepsSliceReducer, StepsState } from "./features/steps/stepsSlice";
 import { setWeightState, weightSliceReducer, WeightState } from "./features/weight/weightSlice";
+import { setTrainingState, trainingsSliceReducer, TrainingState } from "./features/training/trainingSlice";
 
 function createStore() {
     return configureStore({
@@ -11,7 +12,8 @@ function createStore() {
             meals: mealSliceReducer,
             common: commonReducer,
             steps: stepsSliceReducer,
-            weight: weightSliceReducer
+            weight: weightSliceReducer,
+            training: trainingsSliceReducer
         }
     })
 }
@@ -20,7 +22,8 @@ export interface StoreSlices {
     meals: MealsState,
     common: CommonState,
     steps: StepsState,
-    weight: WeightState
+    weight: WeightState,
+    training: TrainingState
 }
 
 export function createStoreAndSetupIndexedDb() {
@@ -32,6 +35,7 @@ export function createStoreAndSetupIndexedDb() {
             store.dispatch(setMealsState(parsed.meals));
             store.dispatch(setStepsState(parsed.steps));            
             store.dispatch(setWeightState(parsed.weight));
+            store.dispatch(setTrainingState(parsed.training));
         }
         store.subscribe(() => {
             let storeState = store.getState();

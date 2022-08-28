@@ -6,6 +6,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import { createStoreAndSetupIndexedDb } from "./store";
+import { BrowserRouter } from 'react-router-dom';
 
 createStoreAndSetupIndexedDb().then(store => {
     const root = ReactDOM.createRoot(
@@ -14,7 +15,9 @@ createStoreAndSetupIndexedDb().then(store => {
     root.render(
         <Provider store={store}>
             <React.StrictMode>
-                <App />
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>                
             </React.StrictMode>
         </Provider>
     );

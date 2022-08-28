@@ -8,6 +8,9 @@ import React, { useEffect } from "react";
 import { ActiveMenuItemCode } from "./Shell";
 import DateService from "../services/DateService";
 import { formatShortDate } from "../services/localization";
+import generateItemId from "../services/generateItemId";
+import { createTrainingSession } from "../features/training/trainingSlice";
+import { useNavigate } from "react-router-dom";
 
 let containerStyle = {
     gap: 15
@@ -25,6 +28,8 @@ function Header({activeMenuItem}: HeaderProps) {
     let menuItemClasses = (n: string) => `dropdown-item ${activeMenuItem === n ? 'active' : ''}`
     const dispatch = useDispatch();
     const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const navigate = useNavigate();
+
     const dateService = new DateService(dateSkew);
     const titleText = dateSkew === 0 ? 'Today' :  formatShortDate(dateService.getNow());    
     
@@ -54,7 +59,22 @@ function Header({activeMenuItem}: HeaderProps) {
             const newDateSkew = dateSkew + skewChange;
             dispatch(setDateSkew(newDateSkew));
         };
-    }    
+    }
+    
+    let handleNewTrainingSessionClicked = (e : React.SyntheticEvent) => {
+        e.preventDefault();
+
+        let now = dateService.getNow();
+        let newTrainingSessionId = generateItemId();
+        dispatch(createTrainingSession({ 
+            id: newTrainingSessionId,
+            yearMonthDay: DateService.getYearMonthDay(now),
+            fullIsoDate: DateService.toIsoString(now),
+            journalText: ''
+         }));
+
+        navigate(`/training-session/${newTrainingSessionId}`);
+    }
     
     return (
         <div>
@@ -76,7 +96,7 @@ function Header({activeMenuItem}: HeaderProps) {
 
                     <Dropdown.Menu>
                         <a href={'/'} data-rr-ui-dropdown-item="" className={menuItemClasses('Summary')}>Summary</a>
-                        <a href={'/settings'} data-rr-ui-dropdown-item="" className={menuItemClasses('settings')}>Settings</a>
+                        <a href='/create-training-session' onClick={handleNewTrainingSessionClicked} data-rr-ui-dropdown-item="" className={menuItemClasses('')}>New training session</a>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
