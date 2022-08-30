@@ -70,7 +70,7 @@ function Header({activeMenuItem}: HeaderProps) {
             id: newTrainingSessionId,
             yearMonthDay: DateService.getYearMonthDay(now),
             fullIsoDate: DateService.toIsoString(now),
-            journalText: ''
+            notes: []
          }));
 
         navigate(`/training-session/${newTrainingSessionId}`);

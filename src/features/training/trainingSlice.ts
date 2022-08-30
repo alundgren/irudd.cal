@@ -6,8 +6,7 @@ export interface TrainingState {
 }
 
 export interface TrainingSession extends DatedItem {
-    journalText: string
-    isClosed: boolean
+    notes: string[]
 }
 
 let initialState: TrainingState = {
@@ -18,26 +17,19 @@ let trainingSlice = createSlice({
     name: 'training',
     initialState,
     reducers: {
-        createTrainingSession(state, action: PayloadAction<{ fullIsoDate: string, yearMonthDay: number, journalText: string, id: string }>) {
+        createTrainingSession(state, action: PayloadAction<{ fullIsoDate: string, yearMonthDay: number, notes: string[], id: string }>) {
             state.trainingSessions =[...state.trainingSessions, { 
                 fullIsoDate: action.payload.fullIsoDate,
                 yearMonthDay: action.payload.yearMonthDay,
-                journalText: action.payload.journalText, 
-                id: action.payload.id, isClosed: false }];
+                notes: action.payload.notes, 
+                id: action.payload.id }];
         },
-        updateTrainingSessionJournalText(state, action: PayloadAction<{ id: string, journalText: string }>) {
+        setTrainingSessionNotes(state, action: PayloadAction<{ id: string, notes: string[] }>) {
             let session = state.trainingSessions.find(x => x.id === action.payload.id);
             if(!session) {
                 return
             }
-            session.journalText = action.payload.journalText;
-        },
-        setIsTrainingSessionClosed(state, action: PayloadAction<{ id: string, isClosed: boolean }>) {
-            let session = state.trainingSessions.find(x => x.id === action.payload.id);
-            if(!session) {
-                return
-            }
-            session.isClosed = action.payload.isClosed;
+            session.notes = action.payload.notes;
         },
         setTrainingState(state, action: PayloadAction<TrainingState>) {
             return action.payload ?? initialState;
@@ -45,5 +37,5 @@ let trainingSlice = createSlice({
     }
 });
 
-export const { createTrainingSession, updateTrainingSessionJournalText, setTrainingState } = trainingSlice.actions;
+export const { createTrainingSession, setTrainingSessionNotes, setTrainingState } = trainingSlice.actions;
 export const trainingsSliceReducer = trainingSlice.reducer;
