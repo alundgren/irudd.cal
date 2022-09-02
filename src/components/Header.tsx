@@ -66,7 +66,8 @@ function Header({activeMenuItem}: HeaderProps) {
 
         let now = dateService.getNow();
         let newTrainingSessionId = generateItemId();
-        dispatch(createTrainingSession({ 
+        dispatch(createTrainingSession({
+            title: `Training`,
             id: newTrainingSessionId,
             yearMonthDay: DateService.getYearMonthDay(now),
             fullIsoDate: DateService.toIsoString(now),
