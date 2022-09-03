@@ -35,19 +35,23 @@ function Header({activeMenuItem}: HeaderProps) {
     
     useEffect(() => {
         const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;
-        /*
-        * PWA seem to basically never restart on iOS so if we dont
-        * manually reset the time-travel a bit every time a new day happens there is this wierd behaviour.
-        * To combat this we reset to no skew after a short time with the intent that the user will "always"
-        * open the app with today selected.
-        */
-        if(dateSkew !== 0) {
-            const timer = setTimeout(() => {
-                dispatch(setDateSkew(0));    
-            }, FifteenMinutesAsMilliseconds);
-            return () => clearTimeout(timer);            
-        }
-    }, [dateSkew, dispatch]);
+        const ThirtySeconds = 60 * 1000;
+        let lastChangeDate = new Date();
+        let intervalId = setInterval(() => {
+            let currentDate = new Date();
+            let msElapsed = currentDate.valueOf() - lastChangeDate.valueOf();
+            if(msElapsed > FifteenMinutesAsMilliseconds) {
+                if(dateSkew !== 0) {
+                    //Reset time travel after 15 minutes
+                    dispatch(setDateSkew(0));
+                } else if(DateService.getYearMonthDay(lastChangeDate) !== DateService.getYearMonthDay(currentDate)) {
+                    //Trigger an update if the date rolls over so the app isnt wierd "the morning after" if not restarted
+                    dispatch(setDateSkew(0));
+                }
+            }
+        }, ThirtySeconds);
+        return () => clearInterval(intervalId);
+    });
 
     const isForwardTimeTravelAllowed = dateSkew < 0;    
     let handleChangeDateSkew = (skewChange: number) => {
