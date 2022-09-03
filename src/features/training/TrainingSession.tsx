@@ -84,7 +84,7 @@ export default function TrainingSession() {
             </div>
             <div style={{ display:'flex', marginTop: 10, justifyContent: 'center', alignItems: 'center' }}>
                 <button className="btn btn-primary" onClick={e => handleEndSession()}>
-                    Close
+                    Return
                 </button>
             </div>
         </>);
