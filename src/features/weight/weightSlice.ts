@@ -38,9 +38,12 @@ let weightSlice = createSlice({
         },
         setWeightState(state, action: PayloadAction<WeightState>) {
             return action.payload ?? initialState;
+        },
+        setWeightTarget(state, action: PayloadAction<number>) {
+            state.dailyWeightTarget = action.payload
         }
     }
 });
 
-export const { setDailyWeight, removeDailyWeight, setWeightState } = weightSlice.actions;
+export const { setDailyWeight, removeDailyWeight, setWeightState, setWeightTarget } = weightSlice.actions;
 export const weightSliceReducer = weightSlice.reducer;

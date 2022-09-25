@@ -32,9 +32,12 @@ let mealSlice = createSlice({
         },
         setMealsState(state, action: PayloadAction<MealsState>) {
             return action.payload ?? initialState;
+        },
+        setDailyCalorieBudget(state, action: PayloadAction<number>) {
+            state.dailyCalorieBudget = action.payload;
         }
     }
 });
 
-export const { addMeal, removeMeal, setMealsState } = mealSlice.actions;
+export const { addMeal, removeMeal, setMealsState, setDailyCalorieBudget } = mealSlice.actions;
 export const mealSliceReducer = mealSlice.reducer;

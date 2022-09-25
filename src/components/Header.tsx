@@ -25,7 +25,7 @@ export interface HeaderProps {
 }
 
 function Header({activeMenuItem}: HeaderProps) {
-    let menuItemClasses = (n: string) => `dropdown-item ${activeMenuItem === n ? 'active' : ''}`
+    let menuItemClasses = (n: ActiveMenuItemCode | null) => `dropdown-item ${activeMenuItem === n ? 'active' : ''}`
     const dispatch = useDispatch();
     const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
     const navigate = useNavigate();
@@ -100,8 +100,9 @@ function Header({activeMenuItem}: HeaderProps) {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <a href={'/'} data-rr-ui-dropdown-item="" className={menuItemClasses('Summary')}>Summary</a>
-                        <a href='/create-training-session' onClick={handleNewTrainingSessionClicked} data-rr-ui-dropdown-item="" className={menuItemClasses('')}>New training session</a>
+                        <a href={'/'} data-rr-ui-dropdown-item="" className={menuItemClasses('summary')}>Summary</a>
+                        <a href='/create-training-session' onClick={handleNewTrainingSessionClicked} data-rr-ui-dropdown-item="" className={menuItemClasses(null)}>New training session</a>
+                        <a href={'/settings'} data-rr-ui-dropdown-item="" className={menuItemClasses('settings')}>Settings</a>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

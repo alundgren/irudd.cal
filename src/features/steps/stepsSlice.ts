@@ -32,9 +32,12 @@ let stepsSlice = createSlice({
         },
         setStepsState(state, action: PayloadAction<StepsState>) {
             return action.payload ?? initialState;
+        },
+        setDailyStepsTargetCount(state, action: PayloadAction<number>) {
+            state.dailyStepsTargetCount = action.payload
         }
     }
 });
 
-export const { setDailySteps, removeDailySteps, setStepsState } = stepsSlice.actions;
+export const { setDailySteps, removeDailySteps, setStepsState, setDailyStepsTargetCount } = stepsSlice.actions;
 export const stepsSliceReducer = stepsSlice.reducer;
