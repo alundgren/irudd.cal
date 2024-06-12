@@ -6,13 +6,7 @@
 
 Prod site: 
 
-https://cal.irudd.se
-
-Deploy:
-
-Update the version in service-worker.ts and then run:
-
->> caprover deploy -b master -a cal -n captain-01
+https://cal.irudd.net
 
 Service worker:
 
