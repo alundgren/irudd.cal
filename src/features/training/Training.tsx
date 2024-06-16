@@ -10,7 +10,7 @@ export default function Training() {
         
     const dateService = new DateService(dateSkew);
 
-    let trainingSessionsToday = DateService.getItemsForDate(training.trainingSessions, dateService.getNow());
+    let trainingSessionsToday = DateService.getItemsForDate(training.trainingSessions, dateService.getActiveDate());
 
     return (<>
         <h3>Training</h3>

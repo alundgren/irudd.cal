@@ -1,9 +1,13 @@
 export default class DateService {
     constructor(private dateSkew: number) {
     }
-    
+        
+    getActiveDate() {
+        return DateService.addDaysToDate(this.getNow(), this.dateSkew);
+    }
+
     getNow() {
-        return DateService.addDaysToDate(new Date(), this.dateSkew);
+        return new Date();
     }
     
     static getYearMonthDay(d: Date) {

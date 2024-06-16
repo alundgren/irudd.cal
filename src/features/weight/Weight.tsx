@@ -18,7 +18,7 @@ export default function Weight() {
     const [isEditingWeight, setIsEditingWeight] = useState(false);    
     
     let dateService = new DateService(dateSkew);
-    let now = dateService.getNow();
+    let now = dateService.getActiveDate();
 
     let onWeightClicked = () => {
         setIsEditingWeight(lastValue => !lastValue);

@@ -6,7 +6,7 @@ import { setStepsState, stepsSliceReducer, StepsState } from "./features/steps/s
 import { setWeightState, weightSliceReducer, WeightState } from "./features/weight/weightSlice";
 import { setTrainingState, trainingsSliceReducer, TrainingState } from "./features/training/trainingSlice";
 
-function createStore() {
+export function createStore() {
     return configureStore({
         reducer: {
             meals: mealSliceReducer,

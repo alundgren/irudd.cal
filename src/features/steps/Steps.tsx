@@ -17,7 +17,7 @@ export default function Steps() {
     const [isEditingStepCount, setIsEditingStepCount] = useState(false);    
     
     let dateService = new DateService(dateSkew);
-    let now = dateService.getNow();
+    let now = dateService.getActiveDate();
 
     let onStepsClicked = () => {
         setIsEditingStepCount(lastValue => !lastValue);

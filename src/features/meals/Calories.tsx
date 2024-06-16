@@ -14,7 +14,7 @@ export default function Calories() {
 
     let [isAddingCalories, setIsAddingCalories] = useState(false);
     let dateService = new DateService(dateSkew);
-    let now = dateService.getNow();
+    let now = dateService.getActiveDate();
 
     let onCaloriesClicked = () => {
         setIsAddingCalories(!isAddingCalories);

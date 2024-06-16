@@ -23,7 +23,7 @@ export default function MealAdder() {
     let isCalorieCountValid = !Number.isNaN(calorieCountParsed)
 
     let handleMealAdded = () => {
-        let dateAdded = dateService.getNow();
+        let dateAdded = dateService.getActiveDate();
         dispatch(addMeal({
             fullIsoDate: DateService.toIsoString(dateAdded),
             yearMonthDay: DateService.getYearMonthDay(dateAdded),
@@ -52,7 +52,7 @@ export default function MealAdder() {
         handleMealAdded()
     };
 
-    let now = dateService.getNow();
+    let now = dateService.getActiveDate();
     let dayMeals = DateService.getItemsForDate(meals, now);
     
     let caloriesRemaining = mealsData.dailyCalorieBudget - dayMeals.reduce((sum, meal) => sum + meal.calorieCount, 0);

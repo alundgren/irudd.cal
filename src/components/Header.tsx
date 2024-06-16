@@ -31,7 +31,7 @@ function Header({activeMenuItem}: HeaderProps) {
     const navigate = useNavigate();
 
     const dateService = new DateService(dateSkew);
-    const titleText = dateSkew === 0 ? 'Today' :  formatShortDate(dateService.getNow());    
+    const titleText = dateSkew === 0 ? 'Today' :  formatShortDate(dateService.getActiveDate());    
     
     useEffect(() => {
         const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;
@@ -68,7 +68,7 @@ function Header({activeMenuItem}: HeaderProps) {
     let handleNewTrainingSessionClicked = (e : React.SyntheticEvent) => {
         e.preventDefault();
 
-        let now = dateService.getNow();
+        let now = dateService.getActiveDate();
         let newTrainingSessionId = generateItemId();
         dispatch(createTrainingSession({
             title: `Training`,

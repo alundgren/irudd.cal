@@ -68,5 +68,8 @@
   },
   "devDependencies": {
     "sass": "^1.53.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": ["/node_modules/(?!d3|d3-array|d3-shape|internmap)"] 
   }
 }
