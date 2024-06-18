@@ -5,10 +5,8 @@ import TrainingSessionSummary from "./TrainingSessionSummary";
 import { TrainingState } from "./trainingSlice";
 
 export default function Training() {
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateService = new DateService(useSelector((x: { common: CommonState }) => x.common));
     const training = useSelector((x: { training: TrainingState }) => x.training);
-        
-    const dateService = new DateService(dateSkew);
 
     let trainingSessionsToday = DateService.getItemsForDate(training.trainingSessions, dateService.getActiveDate());
 

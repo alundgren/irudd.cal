@@ -8,12 +8,11 @@ import DateService from "../../services/DateService";
 import { formatShortTime } from "../../services/localization";
 
 export default function MealAdder() {
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateService = new DateService(useSelector((x: { common: CommonState }) => x.common));
     const mealsData = useSelector((x: { meals: MealsState }) => x.meals);
     const meals = mealsData.meals;
     
     const dispatch = useDispatch();
-    const dateService = new DateService(dateSkew);
 
     let [calorieCount, setCalorieCount] = useState('');
     let onCalorieCountChanged = (evt : React.ChangeEvent<HTMLInputElement>) => {

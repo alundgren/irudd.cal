@@ -10,13 +10,12 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function Steps() {
     const stepsData = useSelector((x: { steps: StepsState }) => x.steps);
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateService = new DateService(useSelector((x: { common: CommonState }) => x.common));
     const dispatch = useDispatch();
     const [isStepsInvalid, setIsStepsInvalid] = useState(false);
     
     const [isEditingStepCount, setIsEditingStepCount] = useState(false);    
-    
-    let dateService = new DateService(dateSkew);
+        
     let now = dateService.getActiveDate();
 
     let onStepsClicked = () => {

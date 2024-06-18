@@ -11,13 +11,12 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } fro
 
 export default function Weight() {
     const weightData = useSelector((x: { weight: WeightState }) => x.weight);
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateService = new DateService(useSelector((x: { common: CommonState }) => x.common));
     const dispatch = useDispatch();
     const [isWeightInvalid, setIsWeightInvalid] = useState(false);
     
     const [isEditingWeight, setIsEditingWeight] = useState(false);    
-    
-    let dateService = new DateService(dateSkew);
+        
     let now = dateService.getActiveDate();
 
     let onWeightClicked = () => {

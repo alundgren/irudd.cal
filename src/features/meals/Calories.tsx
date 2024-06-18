@@ -7,13 +7,13 @@ import TrackingBar from "../../components/TrackingBar";
 import MealAdder from "./MealAdder";
 
 export default function Calories() {
-    const dateSkew = useSelector((x: { common: CommonState }) => x.common.dateSkew);
+    const dateService = new DateService(useSelector((x: { common: CommonState }) => x.common));
     const mealsData = useSelector((x: { meals: MealsState }) => x.meals);
     const meals = mealsData.meals;
     const dailyCalorieBudget = mealsData.dailyCalorieBudget;
 
     let [isAddingCalories, setIsAddingCalories] = useState(false);
-    let dateService = new DateService(dateSkew);
+
     let now = dateService.getActiveDate();
 
     let onCaloriesClicked = () => {

@@ -1,22 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Temporal } from "temporal-polyfill";
 
 export interface CommonState {
-    dateSkew: number
+    viewDate: string,
+    actualDate: string
 }
 
 let initialState: CommonState = {
-    dateSkew: 0
+    viewDate: Temporal.Now.plainDateISO().toString(),
+    actualDate: Temporal.Now.plainDateISO().toString()
 };
 
 let commonSlice = createSlice({
     name: 'common',
     initialState,
     reducers: {
-        setDateSkew(state, action: PayloadAction<number>) {
-            state.dateSkew = action.payload
+        setViewDate(state, action: PayloadAction<string>) {
+            state.viewDate = action.payload.toString();
+        },
+        setDates(state, action: PayloadAction<string>) {
+            state.viewDate = action.payload;
+            state.actualDate = action.payload;
         }
     }
 });
 
-export const { setDateSkew } = commonSlice.actions;
+export const { setViewDate, setDates } = commonSlice.actions;
 export const commonReducer = commonSlice.reducer;

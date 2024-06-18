@@ -1,6 +1,17 @@
+import { Temporal } from "temporal-polyfill";
+import { CommonState } from "../features/common/commonSlice";
+
 export default class DateService {
-    constructor(private dateSkew: number) {
+    constructor(private common: CommonState) {
+        this.viewDate = Temporal.PlainDate.from(this.common.viewDate);
+        this.actualDate = Temporal.PlainDate.from(this.common.actualDate);
+        this.dateSkew = -this.viewDate.until(this.actualDate).days;
     }
+
+    viewDate: Temporal.PlainDate;
+    actualDate: Temporal.PlainDate;
+    dateSkew: number;
+
         
     getActiveDate() {
         return DateService.addDaysToDate(this.getNow(), this.dateSkew);
