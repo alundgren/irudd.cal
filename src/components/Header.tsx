@@ -10,7 +10,6 @@ import DateService from "../services/DateService";
 import generateItemId from "../services/generateItemId";
 import { createTrainingSession } from "../features/training/trainingSlice";
 import { useNavigate } from "react-router-dom";
-import { Temporal } from "temporal-polyfill";
 
 let containerStyle = {
     gap: 15
@@ -38,9 +37,9 @@ function Header({activeMenuItem}: HeaderProps) {
     useEffect(() => {
         const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;
         const ThirtySeconds = 60 * 1000;
-        let lastChangeDate = new Date();
+        let lastChangeDate = dateService.getNow();
         let intervalId = setInterval(() => {
-            let currentDate = new Date();
+            let currentDate = dateService.getNow();
             let msElapsed = currentDate.valueOf() - lastChangeDate.valueOf();
             if(msElapsed > FifteenMinutesAsMilliseconds) {
                 if(viewDate !== actualDate) {
@@ -48,7 +47,7 @@ function Header({activeMenuItem}: HeaderProps) {
                     dispatch(setViewDate(actualDate.toString()));
                 } else if(DateService.getYearMonthDay(lastChangeDate) !== DateService.getYearMonthDay(currentDate)) {
                     //Trigger an update if the date rolls over so the app isnt wierd "the morning after" if not restarted
-                    dispatch(setDates(Temporal.Now.plainDateISO().toString()));
+                    dispatch(setDates(dateService.getToday().toString()));
                 }
             }
         }, ThirtySeconds);
