@@ -36,18 +36,19 @@ function Header({activeMenuItem}: HeaderProps) {
     
     useEffect(() => {
         const FifteenMinutesAsMilliseconds = 15 * 1000 * 60;
-        const ThirtySeconds = 60 * 1000;
+        const ThirtySeconds = 30 * 1000;
         let lastChangeDate = dateService.getNow();
         let intervalId = setInterval(() => {
             let currentDate = dateService.getNow();
             let msElapsed = currentDate.valueOf() - lastChangeDate.valueOf();
             if(msElapsed > FifteenMinutesAsMilliseconds) {
-                if(viewDate !== actualDate) {
-                    //Reset time travel after 15 minutes
-                    dispatch(setViewDate(actualDate.toString()));
-                } else if(DateService.getYearMonthDay(lastChangeDate) !== DateService.getYearMonthDay(currentDate)) {
+                if(DateService.getYearMonthDay(lastChangeDate) !== DateService.getYearMonthDay(currentDate)) {
                     //Trigger an update if the date rolls over so the app isnt wierd "the morning after" if not restarted
                     dispatch(setDates(dateService.getToday().toString()));
+                }
+                else if(viewDate !== actualDate) {
+                    //Reset time travel after 15 minutes
+                    dispatch(setViewDate(actualDate.toString()));
                 }
             }
         }, ThirtySeconds);
@@ -87,8 +88,8 @@ function Header({activeMenuItem}: HeaderProps) {
             <div className="navbar-light d-flex flex-row p-2 align-self-center fs-3 border-bottom" style={containerStyle}>
                 <a href={'/'} style={logoStyle}><img src="/logo.svg" alt="Letter T" style={logoStyle} /></a>
                 <div className="flex-grow-1 d-flex justify-content-center align-items-center">
-                    <Button variant='outline-secondary' size='sm' style={{marginRight:3}}>
-                        <FontAwesomeIcon icon={faMinus} onClick={handleChangeDateSkew(-1)}/>
+                    <Button variant='outline-secondary' size='sm' style={{marginRight:3}} onClick={handleChangeDateSkew(-1)}>
+                        <FontAwesomeIcon icon={faMinus} />
                     </Button>                    
                     <span>{titleText}</span>
                     <Button variant='outline-secondary' size='sm' style={{marginLeft:3}} disabled={!isForwardTimeTravelAllowed} onClick={handleChangeDateSkew(1)}>
