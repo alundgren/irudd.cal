@@ -1,4 +1,4 @@
-FROM node:16.15.0 as react-build
+FROM node:16.15.0@sha256:59eb4e9d6a344ae1161e7d6d8af831cb50713cc631889a5a8c2d438d6ec6aa0f as react-build
 
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
@@ -7,7 +7,7 @@ COPY . /usr/src/app
 RUN npm ci
 RUN npm run build
 
-FROM nginx:alpine
+FROM nginx:1.29-alpine@sha256:5616878291a2eed594aee8db4dade5878cf7edcb475e59193904b198d9b830de
 
 COPY --from=react-build /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf
 
